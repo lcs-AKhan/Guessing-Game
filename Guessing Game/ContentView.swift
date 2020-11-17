@@ -56,7 +56,7 @@ struct ContentView: View {
                     Button(action: {
                         Hints()
                     }) {
-                        Text("Use SuperHint")
+                        Text("Use Hint")
                             .foregroundColor(.red)
                     }
                 }
