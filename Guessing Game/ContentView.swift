@@ -21,6 +21,7 @@ struct ContentView: View {
     @State private var numberEvenOrOdd = ""
     
     @State private var hint = ""
+    @State private var hintsLeft = 1
     
     var body: some View {
         VStack {
@@ -48,6 +49,15 @@ struct ContentView: View {
                     Text("\(stateOfAnswer)")
                     Text("Tries: \(tries)")
                 }
+                Section {
+                    Text("\(hint)")
+                    Button(action: {
+                        Hints()
+                    }) {
+                        Text("Use SuperHint")
+                            .foregroundColor(.red)
+                    }
+                }
             }
         }
     }
@@ -64,11 +74,20 @@ struct ContentView: View {
     }
     func Hints() {
         let hintChooser = Int.random(in: 1...10)
-        if hintChooser > 5 {
-            let numberplus10 = number + 10
-            hint = "Number is below \(numberplus10)"
+        let numberminus = number - Int.random(in: 1...10)
+        let numberplus = number + Int.random(in: 1...10)
+        if hintsLeft == 0 {
+            hint = "YOU USED YOUR HINT!"
+        } else {
+            if hintChooser > 5 {
+                hint = "Number is below \(numberplus)"
+            } else if hintChooser < 5 {
+                hint = "Number is above \(numberminus)"
+            } else if hintChooser == 5 {
+                hint = "Number is between \(numberminus) and \(numberplus)"
+            }
         }
-        
+        hintsLeft = 0
     }
 }
 
