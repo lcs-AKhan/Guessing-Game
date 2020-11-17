@@ -34,6 +34,7 @@ struct ContentView: View {
                 Section {
                     Text("Im thinking of a number between 1 and 100 ... Can you guess this number?")
                         .font(.title)
+                        .multilineTextAlignment(.center)
                         .padding(.horizontal)
                 }
                 Section {
