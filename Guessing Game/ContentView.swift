@@ -39,6 +39,7 @@ struct ContentView: View {
                 }
                 Section {
                     TextField("Enter guess here", text: $guessString)
+                        .keyboardType(.numberPad)
                     Button(action: {
                         CheckGuess()
                     }) {
