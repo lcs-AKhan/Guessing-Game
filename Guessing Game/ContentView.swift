@@ -22,6 +22,8 @@ struct ContentView: View {
     
     @State private var hint = ""
     @State private var hintsLeft = 1
+    
+    @State private var gameOver = false
         
     var body: some View {
         VStack {
@@ -60,7 +62,7 @@ struct ContentView: View {
                             .foregroundColor(.red)
                     }
                 }
-                Section {
+                if gameOver {
                     Button(action: {
                         PlayAgain()
                     }) {
@@ -76,6 +78,7 @@ struct ContentView: View {
         guess = Int(guessString) ?? 0
         if guess == number {
             stateOfAnswer = "You are right!"
+            gameOver = true
         } else if guess < number {
             stateOfAnswer = "Guess higher"
         } else {
@@ -120,6 +123,7 @@ struct ContentView: View {
         numberIsEven = false
         guessString = ""
         guess = 0
+        gameOver = false
     }
 }
 
