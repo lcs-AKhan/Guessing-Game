@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    private var number = Int.random(in: 1...100)
+    @State private var number = Int.random(in: 1...100)
     
     @State var guessString = ""
     @State var guess = 0
@@ -18,11 +18,11 @@ struct ContentView: View {
     
     @State private var stateOfAnswer = ""
     
-    @State private var numberEvenOrOdd = ""
+    @State private var numberIsEven = false
     
     @State private var hint = ""
     @State private var hintsLeft = 1
-    
+        
     var body: some View {
         VStack {
             Text("Guessing Game")
@@ -60,6 +60,15 @@ struct ContentView: View {
                             .foregroundColor(.red)
                     }
                 }
+                Section {
+                    Button(action: {
+                        PlayAgain()
+                    }) {
+                        Image("PlayAgain")
+                            .resizable()
+                            .scaledToFit()
+                    }
+                }
             }
         }
     }
@@ -75,21 +84,42 @@ struct ContentView: View {
         tries += 1
     }
     func Hints() {
-        let hintChooser = Int.random(in: 1...10)
+        let hintChooser = Int.random(in: 1...4)
         let numberminus = number - Int.random(in: 1...10)
         let numberplus = number + Int.random(in: 1...10)
+        if number % 2 == 0 {
+            numberIsEven = true
+        } else {
+            numberIsEven = false
+        }
         if hintsLeft == 0 {
             hint = "YOU USED YOUR HINT!"
         } else {
-            if hintChooser > 5 {
+            if hintChooser == 4 {
                 hint = "Number is below \(numberplus)"
-            } else if hintChooser < 5 {
+            } else if hintChooser == 3 {
                 hint = "Number is above \(numberminus)"
-            } else if hintChooser == 5 {
+            } else if hintChooser == 2 {
                 hint = "Number is between \(numberminus) and \(numberplus)"
+            } else {
+                switch numberIsEven {
+                case true:
+                    hint = "Number is even"
+                case false:
+                    hint = "Number is odd"
+                }
             }
         }
         hintsLeft = 0
+    }
+    func PlayAgain() {
+        number = Int.random(in: 1...100)
+        hintsLeft = 1
+        tries = 0
+        stateOfAnswer = ""
+        numberIsEven = false
+        guessString = ""
+        guess = 0
     }
 }
 
