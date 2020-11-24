@@ -9,6 +9,9 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @State private var maxNumber: Float = 100
+    @State private var setMaxNumber: Int = 100
+    
     @State private var number = Int.random(in: 1...100)
     
     @State var guessString = ""
@@ -24,17 +27,27 @@ struct ContentView: View {
     @State private var hintsLeft = 1
     
     @State private var gameOver = false
-        
+            
     var body: some View {
         VStack {
             Text("Guessing Game")
-                .font(.largeTitle)
+                .font(.title)
                 .fontWeight(.regular)
                 .multilineTextAlignment(.center)
                 .padding(.bottom)
             Form {
+                Section(header: Text("Difficulty")) {
+                    VStack {
+                        Slider(value: $maxNumber, in: 20...100, step: 5)
+                    }
+                    Button(action: {
+                        SetDifficulty()
+                    }) {
+                        Text("Set Difficulty")
+                    }
+                }
                 Section {
-                    Text("Im thinking of a number between 1 and 100 ... Can you guess this number?")
+                    Text("Im thinking of a number between 1 and \(setMaxNumber) ... Can you guess this number?")
                         .font(.title)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
@@ -116,7 +129,7 @@ struct ContentView: View {
         hintsLeft = 0
     }
     func PlayAgain() {
-        number = Int.random(in: 1...100)
+        number = Int.random(in: 1...Int(setMaxNumber))
         hintsLeft = 1
         tries = 0
         stateOfAnswer = ""
@@ -124,6 +137,11 @@ struct ContentView: View {
         guessString = ""
         guess = 0
         gameOver = false
+        hint = ""
+    }
+    func SetDifficulty() {
+        setMaxNumber = Int(maxNumber)
+        PlayAgain()
     }
 }
 
